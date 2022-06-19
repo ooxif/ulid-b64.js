@@ -8,7 +8,9 @@
     "ulid",
     "base64",
     "id",
+    "guid",
     "uuid",
+    "uuidv7",
     "binary"
   ],
   "engines": {
