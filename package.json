@@ -2,7 +2,7 @@
   "name": "ulid-b64",
   "main": "dist/node.js",
   "browser": "dist/browser.js",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "ULID as a binary, or as a base64-alike string",
   "keywords": [
     "ulid",
