@@ -1,7 +1,7 @@
 {
   "name": "ulid-b64",
-  "main": "node/index.js",
-  "browser": "browser/index.js",
+  "main": "dist/node.js",
+  "browser": "dist/browser.js",
   "version": "0.1.5",
   "description": "ULID as a binary, or as a base64-alike string",
   "keywords": [
@@ -15,12 +15,12 @@
     "node": "^16.0.0"
   },
   "files": [
-    "browser/**/*",
-    "node/**/*",
+    "dist/**/*",
     "index.d.ts",
     "LICENSE.txt"
   ],
   "scripts": {
+    "bench": "npm run build && node bench",
     "build": "ts-node build.ts",
     "fix": "run-s fix:js fix:json",
     "fix:js": "eslint --ignore-path .gitignore --ext .cjs,.js,.ts --fix .",

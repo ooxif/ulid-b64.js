@@ -7,7 +7,7 @@ build({
   sourcemap: false,
   entryPoints: ["src/browser.ts"],
   format: "esm",
-  outfile: "./browser/index.js",
+  outfile: "./dist/browser.js",
   target: ["ES2020"],
   platform: "browser",
 });
@@ -19,7 +19,7 @@ build({
   sourcemap: false,
   entryPoints: ["src/node.ts"],
   format: "cjs",
-  outfile: "./node/index.js",
+  outfile: "./dist/node.js",
   target: ["ES2020"],
   platform: "node",
 });

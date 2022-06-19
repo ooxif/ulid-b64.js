@@ -5,17 +5,19 @@ const toNumber = (numbers: number[]) => {
   let pos = 0;
 
   for (let i = numbers.length - 1; i >= 0; --i) {
-    sum += numbers[i] * 0xff ** pos;
+    sum += numbers[i] * 0x100 ** pos;
     ++pos;
   }
 
   return sum;
 };
 
-const timedTestSuite = <T extends Uint8Array>({
+const timedTestSuite = ({
   default: ulid,
   ulidString,
-}: TestSuiteFunctions<T>) => {
+  extractTimeFromUlid,
+  extractTimeFromUlidString,
+}: TestSuiteFunctions) => {
   test("ulid() generation within the same time", () => {
     jest.useFakeTimers();
     jest.setSystemTime(0);
@@ -28,24 +30,12 @@ const timedTestSuite = <T extends Uint8Array>({
 
     expect(time0).toStrictEqual(time1);
 
-    const rand00 = toNumber(id0.slice(6, 10));
-    const rand01 = toNumber(id0.slice(10, 14));
-    const rand02 = toNumber(id0.slice(14));
-    const rand10 = toNumber(id1.slice(6, 10));
-    const rand11 = toNumber(id1.slice(10, 14));
-    const rand12 = toNumber(id1.slice(14));
+    id0[8] &= 0b1100_0000;
+    id1[8] &= 0b1100_0000;
+    const rand0 = toNumber(id0.slice(6, 9));
+    const rand1 = toNumber(id1.slice(6, 9));
 
-    if (rand12) {
-      expect(rand02).toBe(rand12 - 1);
-    } else if (rand11) {
-      expect(rand01).toBe(rand11 - 1);
-    } else if (rand10) {
-      expect(rand00).toBe(rand10 - 1);
-    } else {
-      expect(rand00).toBe(0xffffffff);
-      expect(rand01).toBe(0xffffffff);
-      expect(rand02).toBe(0xffff);
-    }
+    expect(rand1).toBe(rand0 + 0b0100_0000);
   });
 
   test("sortable", () => {
@@ -65,6 +55,19 @@ const timedTestSuite = <T extends Uint8Array>({
     expect(oldIdStr < newIdStr).toBe(true);
     expect(oldIdStr > newIdStr).toBe(false);
   });
+
+  for (const time of [0, 1, 1655638494874]) {
+    test(`extractTimeFromUlid (time=${time})`, () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(time);
+
+      const id = ulid();
+      const idStr = ulidString();
+
+      expect(extractTimeFromUlid(id)).toBe(time);
+      expect(extractTimeFromUlidString(idStr)).toBe(time);
+    });
+  }
 };
 
 export default timedTestSuite;

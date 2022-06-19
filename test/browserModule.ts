@@ -1,11 +1,15 @@
-import { randomFillSync } from "node:crypto";
+import { webcrypto } from "node:crypto";
+
+type WebCrypto = typeof webcrypto & {
+  getRandomValues(bytes: Uint8Array): Uint8Array;
+};
 
 Object.defineProperty(global, "crypto", {
   configurable: true,
   enumerable: false,
   value: {
     getRandomValues(bytes: Uint8Array) {
-      randomFillSync(bytes);
+      (webcrypto as WebCrypto).getRandomValues(bytes);
 
       return bytes;
     },

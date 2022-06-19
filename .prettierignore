@@ -1,5 +1,5 @@
 /.*
 !/.eslintrc.json
-/browser/index.js
-/node/index.js
+/bench/node_modules
+/dist
 /node_modules

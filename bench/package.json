@@ -1,0 +1,10 @@
+{
+  "name": "bench",
+  "dependencies": {
+    "@sinonjs/fake-timers": "^9.1.2",
+    "id128": "^1.6.6",
+    "ulid": "^2.3.0",
+    "ulid-b64": "^0.1.5",
+    "ulidx": "^0.3.0"
+  }
+}

@@ -4,33 +4,29 @@ import {
   UlidString,
   IsValidUlid,
   IsValidUlidString,
+  ExtractTimeFromUlid,
+  ExtractTimeFromUlidString,
 } from "../index";
 
-interface BytesConstructor<T extends Uint8Array> {
-  new (size: number): T;
-}
-
-export interface TestSuiteFunctions<T extends Uint8Array> {
-  default: Ulid<T>;
-  ulidString: UlidString<T>;
-  ulidFromString: UlidFromString<T>;
-  isValidUlid: IsValidUlid<T>;
+export interface TestSuiteFunctions {
+  default: Ulid;
+  ulidString: UlidString;
+  ulidFromString: UlidFromString;
+  isValidUlid: IsValidUlid;
   isValidUlidString: IsValidUlidString;
+  extractTimeFromUlid: ExtractTimeFromUlid;
+  extractTimeFromUlidString: ExtractTimeFromUlidString;
 }
 
-const testSuite = <T extends Uint8Array>(
-  BytesClass: BytesConstructor<T>,
-  {
-    default: ulid,
-    ulidString,
-    ulidFromString,
-    isValidUlid,
-    isValidUlidString,
-  }: TestSuiteFunctions<T>,
-  alloc: (size: number) => T
-) => {
-  const isUlid = (bytes: T, ...values: number[]) => {
-    expect(bytes).toBeInstanceOf(BytesClass);
+const testSuite = ({
+  default: ulid,
+  ulidString,
+  ulidFromString,
+  isValidUlid,
+  isValidUlidString,
+}: TestSuiteFunctions) => {
+  const isUlid = (bytes: Uint8Array, ...values: number[]) => {
+    expect(bytes).toBeInstanceOf(Uint8Array);
     expect(bytes).toHaveLength(16);
 
     if (!values.length) return;
@@ -71,7 +67,7 @@ const testSuite = <T extends Uint8Array>(
 
     for (const [key, value] of Object.entries(table)) {
       test(`isValidUlid(bytes) (length = ${key})`, () => {
-        expect(isValidUlid(alloc(Number(key)))).toBe(value);
+        expect(isValidUlid(new Uint8Array(Number(key)))).toBe(value);
       });
     }
   })();

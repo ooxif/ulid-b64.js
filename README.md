@@ -21,16 +21,13 @@ import ulid, {
     isValidUlid,
     isValidUlidString,
 } from "ulid-b64";
-// or "ulid-b64/node" for precise type definitions for Node.js environment.
 
-// ulid() returns a ULID binary.
+// ulid() returns a ULID binary as Uint8Array.
 const id = ulid();
 
-// On Node.js environment, it returns a `Buffer`.
-// On browwser envrionment, it returns a `Uint8Array`.
-expect(id).toBeInstanceOf(isNodeJS ? Buffer : Uint8Array);
+expect(id).toBeInstanceOf(Uint8Array);
 
-// Both of them have exactly 16-length bytes.
+// It has exactly 16-length bytes.
 expect(id).toHaveLength(16);
 
 // ulidString() returns ULID in Sortable-string format.
@@ -61,7 +58,7 @@ expect(oldIdStr < newIdStr).toBe(true);
 expect(ulidString(id)).toMatch(/^[\dA-Za-z_-]{22}$/);
 
 // To convert a ULID string into a binary, use ulidFromString().
-expect(ulidFromString(idStr)).toBeInstanceOf(isNodeJS ? Buffer : Uint8Array);
+expect(ulidFromString(idStr)).toBeInstanceOf(Uint8Array);
 
 // Both of ulidString() and ulidFromString() do not check the value is valid or not.
 // Test the value yourself before converting.
@@ -71,4 +68,41 @@ expect(isValidUlid(id)).toBe(true);
 
 // Test against a string.
 expect(isValidUlidString(idStr)).toBe(true);
+
+// To extract a timestamp from ULID, use extractTimeFromUlid() or
+// extractTimeFromUlidString().
+// They return the number of milliseconds since the ECMAScript epoch.
+// (which is equivalent to UNIX epoch)
+expect(typeof extractTimeFromUlid(id)).toBe("number");
+expect(typeof extractTimeFromUlidString(idStr)).toBe("number");
+```
+
+## Monotonicity
+
+`ulid-b64` can produce at least 131,071 unique ids within the same millisecond.
+
+Attempting to produce more ids, `ulid-b64` might throw
+an `Error("monotonic counter exhausted")`.
+
+## Field and Bit Layout
+
+-   48 bits: the number of milliseconds since the ECMAScript epoch
+-   18 bits: random-seeded counter
+-   62 bits: random data
+
+> [UUIDv7](https://www.ietf.org/id/draft-peabody-dispatch-new-uuid-format-03.html#name-uuid-version-7)
+> like layout, without version bits.
+
+```
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                           timestamp                           |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|          timestamp            |            counter            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| c |                        random                             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                            random                             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
