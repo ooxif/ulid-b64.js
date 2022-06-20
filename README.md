@@ -20,6 +20,8 @@ import ulid, {
     ulidFromString,
     isValidUlid,
     isValidUlidString,
+    extractTimeFromUlid,
+    extractTimeFromUlidString,
 } from "ulid-b64";
 
 // ulid() returns a ULID binary as Uint8Array.
