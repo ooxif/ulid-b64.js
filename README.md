@@ -81,7 +81,7 @@ expect(typeof extractTimeFromUlidString(idStr)).toBe("number");
 
 ## Monotonicity
 
-`ulid-b64` can produce at least 131,071 unique ids within the same millisecond.
+`ulid-b64` can produce at least 131,071 unique IDs within the same millisecond.
 
 Attempting to produce more ids, `ulid-b64` might throw
 an `Error("monotonic counter exhausted")`.
@@ -92,8 +92,8 @@ an `Error("monotonic counter exhausted")`.
 -   18 bits: random-seeded counter
 -   62 bits: random data
 
-> [UUIDv7](https://www.ietf.org/id/draft-peabody-dispatch-new-uuid-format-03.html#name-uuid-version-7)
-> like layout, without version bits.
+> [UUIDv7](https://www.ietf.org/id/draft-peabody-dispatch-new-uuid-format-03.html#name-uuid-version-7)-like
+> layout, without version bits.
 
 ```
  0                   1                   2                   3

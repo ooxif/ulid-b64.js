@@ -3,7 +3,7 @@
   "main": "dist/node.js",
   "browser": "dist/browser.js",
   "version": "0.2.2",
-  "description": "ULID as a binary, or as a base64-alike string",
+  "description": "ULID as a binary, or as a base64-like sortable string",
   "keywords": [
     "ulid",
     "base64",
