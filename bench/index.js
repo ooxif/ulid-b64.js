@@ -119,7 +119,7 @@ for (const [iterationType, iterator] of [
 
   const header = `| ${iterationType.padEnd(
     max.label,
-    " "
+    " ",
   )} | ${"duration".padEnd(max.digit + max.frac + 1, " ")} |`;
   console.log("-".repeat(header.length));
   console.log(header);
@@ -129,8 +129,8 @@ for (const [iterationType, iterator] of [
     console.log(
       `| ${key.padEnd(max.label, " ")} | ${digit.padStart(
         max.digit,
-        " "
-      )}.${frac.padEnd(max.frac, "0")} |`
+        " ",
+      )}.${frac.padEnd(max.frac, "0")} |`,
     );
   }
   console.log("-".repeat(header.length));

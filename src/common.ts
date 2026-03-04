@@ -113,7 +113,7 @@ export const isValidUlid: IsValidUlid = (bytes): bytes is Uint8Array =>
   bytes instanceof Uint8Array && bytes.length === ulidSize;
 
 export const isValidUlidString: IsValidUlidString = (
-  string
+  string,
 ): string is string =>
   typeof string === "string" && /^[\dA-Za-z_-]{22}$/.test(string);
 
@@ -154,7 +154,7 @@ export const extractTimeFromUlid: ExtractTimeFromUlid = (bytes) => {
 };
 
 export const extractTimeFromUlidString: ExtractTimeFromUlidString = (
-  string
+  string,
 ) => {
   const values = new Array(8);
 

@@ -88,9 +88,9 @@ an `Error("monotonic counter exhausted")`.
 
 ## Field and Bit Layout
 
--   48 bits: the number of milliseconds since the ECMAScript epoch
--   18 bits: random-seeded counter
--   62 bits: random data
+- 48 bits: the number of milliseconds since the ECMAScript epoch
+- 18 bits: random-seeded counter
+- 62 bits: random data
 
 > [UUIDv7](https://www.ietf.org/id/draft-peabody-dispatch-new-uuid-format-03.html#name-uuid-version-7)-like
 > layout, without version bits.
