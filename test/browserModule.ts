@@ -16,7 +16,6 @@ Object.defineProperty(global, "crypto", {
   },
 });
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const mod = require("../src/browser");
 
 delete (global as unknown as { crypto: unknown }).crypto;

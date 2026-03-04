@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const sinon = require("@sinonjs/fake-timers");
 const { ulid, monotonicFactory } = require("ulid");
 const { ulid: ulidx, monotonicFactory: ulidxM } = require("ulidx");
